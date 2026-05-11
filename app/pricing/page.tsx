@@ -43,7 +43,7 @@ export default function PricingPage() {
             } catch {
               console.error("Confirm checkout did not return JSON:", responseText);
               setError(
-                "Stripe payment worked, but the app could not save the customer portal info. Check PowerShell."
+                "Your payment was completed, but we could not finish loading your subscription details. Please refresh or contact support."
               );
               window.history.replaceState({}, "", "/pricing");
               return;
@@ -71,13 +71,13 @@ export default function PricingPage() {
               console.error("Could not save customer ID:", data.error);
               setError(
                 data.error ||
-                  "Stripe payment worked, but no customer ID was saved."
+                  "Your payment was completed, but subscription management could not be set up automatically."
               );
             }
           } catch (error) {
             console.error("Confirm checkout failed:", error);
             setError(
-              "Stripe payment worked, but customer portal setup failed. Check PowerShell."
+              "Your payment was completed, but subscription management could not be set up automatically."
             );
           }
         }
@@ -125,19 +125,19 @@ export default function PricingPage() {
       try {
         data = responseText ? JSON.parse(responseText) : {};
       } catch {
-        setError("Stripe checkout backend did not return valid JSON.");
+        setError("Checkout could not be started. Please try again.");
         setLoadingPlan("");
         return;
       }
 
       if (!response.ok) {
-        setError(data.error || "Checkout failed.");
+        setError(data.error || "Checkout could not be started.");
         setLoadingPlan("");
         return;
       }
 
       if (!data.url) {
-        setError("Stripe did not return a checkout URL.");
+        setError("Stripe did not return a checkout link.");
         setLoadingPlan("");
         return;
       }
@@ -145,7 +145,7 @@ export default function PricingPage() {
       window.location.href = data.url;
     } catch (error) {
       console.error(error);
-      setError("Checkout failed. Check PowerShell.");
+      setError("Checkout could not be started. Please try again.");
       setLoadingPlan("");
     }
   }
@@ -158,7 +158,7 @@ export default function PricingPage() {
 
     if (!savedCustomerId) {
       setError(
-        "No Stripe customer ID found. Reset plan and complete checkout again."
+        "We could not find your subscription management details. Please complete checkout again or contact support."
       );
       return;
     }
@@ -181,34 +181,25 @@ export default function PricingPage() {
       try {
         data = responseText ? JSON.parse(responseText) : {};
       } catch {
-        setError("Customer portal backend did not return valid JSON.");
+        setError("Subscription management could not be opened.");
         return;
       }
 
       if (!response.ok) {
-        setError(data.error || "Could not open customer portal.");
+        setError(data.error || "Subscription management could not be opened.");
         return;
       }
 
       if (!data.url) {
-        setError("Stripe did not return a portal URL.");
+        setError("Stripe did not return a subscription management link.");
         return;
       }
 
       window.location.href = data.url;
     } catch (error) {
       console.error(error);
-      setError("Could not open customer portal. Check PowerShell.");
+      setError("Subscription management could not be opened.");
     }
-  }
-
-  function resetPlanForTesting() {
-    localStorage.removeItem("billclarity_subscription");
-    localStorage.removeItem("billclarity_subscription_status");
-    localStorage.removeItem("billclarity_stripe_customer_id");
-    setCurrentPlan("free");
-    setCustomerId("");
-    setError("");
   }
 
   return (
@@ -223,7 +214,8 @@ export default function PricingPage() {
         </h1>
 
         <p className="mb-4 text-center text-gray-300">
-          Choose a plan. Payments are securely processed by Stripe.
+          Choose the plan that fits how often you need help reviewing bills,
+          statements, and confusing charges.
         </p>
 
         <div className="mx-auto mb-8 max-w-xl rounded-lg border border-green-900 bg-gray-900 p-4 text-center">
@@ -232,16 +224,6 @@ export default function PricingPage() {
             <span className="font-bold text-green-400 uppercase">
               {currentPlan}
             </span>
-          </p>
-
-          {customerId && (
-            <p className="mt-2 text-xs text-gray-500">
-              Stripe customer saved for portal access.
-            </p>
-          )}
-
-          <p className="mt-2 text-xs text-gray-500">
-            Prototype mode: plan is saved only on this browser/device.
           </p>
 
           {(currentPlan === "plus" || currentPlan === "pro") && (
@@ -330,23 +312,6 @@ export default function PricingPage() {
           >
             Go to Analyze
           </Link>
-        </div>
-
-        <div className="mt-8 rounded-lg border border-yellow-700 bg-yellow-950/30 p-4 text-sm text-yellow-100">
-          <p>
-            <strong>Prototype warning:</strong> This uses localStorage after
-            Stripe redirects back. Real paid access needs login, webhooks, and a
-            secure database.
-          </p>
-        </div>
-
-        <div className="mt-6 text-center">
-          <button
-            onClick={resetPlanForTesting}
-            className="text-sm text-gray-500 underline hover:text-gray-300"
-          >
-            Reset plan for testing
-          </button>
         </div>
       </div>
     </main>

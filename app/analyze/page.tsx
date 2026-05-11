@@ -96,7 +96,7 @@ export default function AnalyzePage() {
 
     if (monthlyUsage >= limit) {
       setError(
-        `You have reached your ${currentPlan} plan limit. Upgrade to continue analyzing documents.`
+        `You have reached your ${currentPlan.toUpperCase()} plan limit for this month. Upgrade to continue analyzing documents.`
       );
       return;
     }
@@ -139,13 +139,18 @@ export default function AnalyzePage() {
           ocrData = ocrResponseText ? JSON.parse(ocrResponseText) : {};
         } catch {
           console.error("OCR backend did not return JSON:", ocrResponseText);
-          setError("The OCR backend did not return valid JSON. Check PowerShell.");
+          setError(
+            "We could not read this file. Please try again or paste the text manually."
+          );
           setIsLoading(false);
           return;
         }
 
         if (!ocrResponse.ok) {
-          setError(ocrData.error || "OCR failed. Please paste the text manually.");
+          setError(
+            ocrData.error ||
+              "We could not read this file. Please paste the text manually."
+          );
           setIsLoading(false);
           return;
         }
@@ -154,14 +159,14 @@ export default function AnalyzePage() {
 
         if (!finalDocumentText.trim()) {
           setError(
-            "We could not read text from this file. Please paste the document text manually."
+            "We could not find readable text in this file. Please paste the document text manually."
           );
           setIsLoading(false);
           return;
         }
       }
 
-      setLoadingMessage("Sending the document to Claude for analysis...");
+      setLoadingMessage("Creating your report...");
 
       const response = await fetch("/api/analyze", {
         method: "POST",
@@ -184,13 +189,15 @@ export default function AnalyzePage() {
         data = responseText ? JSON.parse(responseText) : {};
       } catch {
         console.error("Analyze backend did not return JSON:", responseText);
-        setError("The analysis backend did not return valid JSON. Check PowerShell.");
+        setError("The report could not be created. Please try again.");
         setIsLoading(false);
         return;
       }
 
       if (!response.ok) {
-        setError(data.error || `Analysis failed. Status: ${response.status}`);
+        setError(
+          data.error || `The report could not be created. Status: ${response.status}`
+        );
         setIsLoading(false);
         return;
       }
@@ -226,13 +233,14 @@ export default function AnalyzePage() {
       window.location.href = "/results";
     } catch (error) {
       console.error(error);
-      setError("Analysis failed. Check PowerShell for the exact error.");
+      setError("The report could not be created. Please try again.");
       setIsLoading(false);
     }
   }
 
   const limit = getPlanLimit(currentPlan);
-  const usageDisplay = limit === Infinity ? "Unlimited" : `${monthlyUsage}/${limit}`;
+  const usageDisplay =
+    limit === Infinity ? "Unlimited" : `${monthlyUsage}/${limit}`;
 
   return (
     <main className="min-h-screen bg-black px-6 py-10 text-white">
@@ -265,13 +273,13 @@ export default function AnalyzePage() {
           </p>
 
           <p className="mt-2 text-xs text-gray-500">
-            Prototype mode: plan and usage are saved only on this browser/device.
+            Monthly usage resets at the start of each month.
           </p>
         </div>
 
         <p className="mb-8 text-gray-300">
-          Upload a file or paste document text. PDFs/images are read with
-          Mistral OCR, then Claude creates the report.
+          Upload a bill, contract, statement, policy, or charge notice and get a
+          plain-English report with questions to ask and next steps to consider.
         </p>
 
         <div className="space-y-6 rounded-xl border border-green-900 bg-gray-900 p-6">

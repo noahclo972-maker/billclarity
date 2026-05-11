@@ -70,8 +70,6 @@ Safety rules:
 - Do not invent facts.
 - If something is unclear, say it is unclear.
 
-The "message" field is VERY IMPORTANT.
-
 The "message" field must be a ready-to-send customer service message written from the user's point of view.
 
 The "message" field must:
@@ -83,16 +81,7 @@ The "message" field must:
 - Ask whether the fees can be corrected, removed, waived, or explained.
 - End with "Thank you."
 - NOT give advice to the user.
-- NOT say "consider comparing" or "you should."
 - NOT sound like a summary.
-- NOT sound like legal advice.
-- Be something the user could copy and send directly.
-
-Good example for "message":
-"Hello, I am reviewing my recent bill and would like clarification about the administrative fee, convenience fee, and late fee listed on my statement. Can you please provide an itemized explanation of these charges and let me know whether any of them can be corrected, removed, or waived? I would also like to understand whether these fees are required under my account or agreement. Thank you."
-
-Bad example for "message":
-"Whether fees are too high depends on your area. You should compare providers."
 
 Return this exact JSON shape:
 
@@ -144,9 +133,6 @@ ${documentText}
       );
     }
 
-    console.log("RAW CLAUDE RESPONSE:");
-    console.log(firstBlock.text);
-
     let parsed;
 
     try {
@@ -159,7 +145,7 @@ ${documentText}
       return NextResponse.json(
         {
           error:
-            "Claude returned invalid JSON. Check PowerShell for the raw Claude output.",
+            "Claude returned invalid JSON. Please try again with a clearer document.",
         },
         { status: 500 }
       );
@@ -186,7 +172,7 @@ ${documentText}
 
     return NextResponse.json(
       {
-        error: "Analysis failed. Check PowerShell for the exact backend error.",
+        error: "Analysis failed. Please try again.",
       },
       { status: 500 }
     );
