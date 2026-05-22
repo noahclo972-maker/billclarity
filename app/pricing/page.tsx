@@ -41,7 +41,10 @@ export default function PricingPage() {
             try {
               data = responseText ? JSON.parse(responseText) : {};
             } catch {
-              console.error("Confirm checkout did not return JSON:", responseText);
+              console.error(
+                "Confirm checkout did not return JSON:",
+                responseText
+              );
               setError(
                 "Your payment was completed, but we could not finish loading your subscription details. Please refresh or contact support."
               );
@@ -247,7 +250,7 @@ export default function PricingPage() {
             name="Free"
             price="$0/month"
             features={[
-              "3 analyses per month",
+              "1 free bill scan per month",
               "Basic bill summary",
               "Basic red flag detection",
               "Saved reports on this device",
@@ -265,7 +268,7 @@ export default function PricingPage() {
             name="Plus"
             price="$6.99/month"
             features={[
-              "50 analyses per month",
+              "50 bill scans per month",
               "Full reports",
               "Hidden fee review",
               "Message generator",
@@ -287,7 +290,7 @@ export default function PricingPage() {
             name="Pro"
             price="$14.99/month"
             features={[
-              "Unlimited analyses",
+              "Unlimited bill scans",
               "Advanced reports",
               "Advanced red flag review",
               "Message tone options",

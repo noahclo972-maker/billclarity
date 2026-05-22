@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 type Plan = "free" | "plus" | "pro";
 
 function getPlanLimit(plan: Plan) {
-  if (plan === "free") return 3;
+  if (plan === "free") return 1;
   if (plan === "plus") return 50;
   return Infinity;
 }
@@ -196,7 +196,8 @@ export default function AnalyzePage() {
 
       if (!response.ok) {
         setError(
-          data.error || `The report could not be created. Status: ${response.status}`
+          data.error ||
+            `The report could not be created. Status: ${response.status}`
         );
         setIsLoading(false);
         return;
@@ -273,7 +274,8 @@ export default function AnalyzePage() {
           </p>
 
           <p className="mt-2 text-xs text-gray-500">
-            Monthly usage resets at the start of each month.
+            Free plan includes 1 bill scan per month. Monthly usage resets at
+            the start of each month.
           </p>
         </div>
 
@@ -339,7 +341,9 @@ export default function AnalyzePage() {
               <option value="Insurance document">Insurance document</option>
               <option value="Utility bill">Utility bill</option>
               <option value="Subscription charge">Subscription charge</option>
-              <option value="Phone or internet bill">Phone or internet bill</option>
+              <option value="Phone or internet bill">
+                Phone or internet bill
+              </option>
               <option value="Rent or lease charge">Rent or lease charge</option>
               <option value="Credit card statement">Credit card statement</option>
               <option value="Bank fee">Bank fee</option>
