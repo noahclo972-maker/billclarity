@@ -257,8 +257,14 @@ export default function AnalyzePage() {
         </div>
 
         <h1 className="mb-3 text-4xl font-bold text-green-400">
-          Analyze Your Document
+          Try 1 Free Bill Scan
         </h1>
+
+        <p className="mb-6 text-gray-300">
+          Paste bill text or upload a file to get a plain-English breakdown,
+          questions to ask, and a copy-and-paste message before you pay or
+          contact customer service.
+        </p>
 
         <div className="mb-6 rounded-lg border border-green-900 bg-gray-900 p-4">
           <p className="text-gray-300">
@@ -279,10 +285,10 @@ export default function AnalyzePage() {
           </p>
         </div>
 
-        <p className="mb-8 text-gray-300">
-          Upload a bill, contract, statement, policy, or charge notice and get a
-          plain-English report with questions to ask and next steps to consider.
-        </p>
+        <div className="mb-6 rounded-lg border border-yellow-700 bg-yellow-950 p-4 text-sm text-yellow-200">
+          Tip: Remove account numbers, member IDs, full addresses, and payment
+          info before uploading.
+        </div>
 
         <div className="space-y-6 rounded-xl border border-green-900 bg-gray-900 p-6">
           <div>
@@ -391,7 +397,7 @@ export default function AnalyzePage() {
             disabled={isLoading}
             className="w-full rounded-lg bg-green-500 py-4 text-lg font-bold text-black hover:bg-green-400 disabled:opacity-50"
           >
-            {isLoading ? "Analyzing..." : "Analyze Document"}
+            {isLoading ? "Analyzing..." : "Run Free Bill Scan"}
           </button>
         </div>
       </div>
