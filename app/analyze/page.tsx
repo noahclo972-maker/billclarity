@@ -286,8 +286,10 @@ export default function AnalyzePage() {
         </div>
 
         <div className="mb-6 rounded-lg border border-yellow-700 bg-yellow-950 p-4 text-sm text-yellow-200">
-          Tip: Remove account numbers, member IDs, full addresses, and payment
-          info before uploading.
+          Tip: For privacy, remove account numbers, member IDs, full addresses, 
+          birthdates, and payment information before uploading. BillClarity only 
+          needs the bill wording, charges, fees, dates, and confusing sections.
+
         </div>
 
         <div className="space-y-6 rounded-xl border border-green-900 bg-gray-900 p-6">
