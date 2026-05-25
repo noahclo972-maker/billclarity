@@ -32,8 +32,15 @@ export default function HomePage() {
           </Link>
 
           <Link
-            href="/pricing"
+            href="/analyze?sample=true"
             className="rounded-lg border border-green-500 px-8 py-4 text-lg font-bold text-green-400 hover:bg-green-500/10"
+          >
+            Try a Sample Bill
+          </Link>
+
+          <Link
+            href="/pricing"
+            className="rounded-lg border border-gray-700 px-8 py-4 text-lg font-bold text-gray-300 hover:bg-gray-900"
           >
             View Plans
           </Link>
@@ -80,19 +87,19 @@ export default function HomePage() {
 
       <section className="mx-auto mt-16 max-w-4xl rounded-xl border border-green-900 bg-gray-900 p-6 text-center">
         <h2 className="mb-3 text-2xl font-bold text-green-400">
-          Before you pay a bill you don’t understand, check it first.
+          Curious but don’t have a bill ready?
         </h2>
 
         <p className="mb-6 text-gray-300">
-          A confusing charge might be nothing — or it might be a fee, mistake,
-          duplicate charge, missed credit, or deadline you need to ask about.
+          Try the sample bill first. It lets you see how BillClarity works
+          without uploading your own document.
         </p>
 
         <Link
-          href="/analyze"
+          href="/analyze?sample=true"
           className="inline-block rounded-lg bg-green-500 px-6 py-3 font-bold text-black hover:bg-green-400"
         >
-          Try 1 Free Bill Scan
+          Try a Sample Bill
         </Link>
       </section>
 

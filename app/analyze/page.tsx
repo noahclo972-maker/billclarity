@@ -16,6 +16,24 @@ function getCurrentMonthKey() {
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 }
 
+const sampleBillText = `Sample Internet Bill
+
+Monthly Internet Service: $74.99
+Equipment Rental Fee: $14.99
+Administrative Fee: $8.99
+Late Payment Fee: $10.00
+Previous Balance Adjustment: $6.50
+Taxes and Surcharges: $5.42
+
+Total Amount Due: $120.89
+Due Date: June 15
+
+Notes:
+Your monthly service rate increased this billing cycle.
+The equipment rental fee is charged monthly.
+The administrative fee helps cover account maintenance and billing operations.
+A late payment fee was added because the previous payment was received after the due date.`;
+
 export default function AnalyzePage() {
   const [documentType, setDocumentType] = useState("");
   const [documentTitle, setDocumentTitle] = useState("");
@@ -28,6 +46,7 @@ export default function AnalyzePage() {
   const [loadingMessage, setLoadingMessage] = useState("");
   const [currentPlan, setCurrentPlan] = useState<Plan>("free");
   const [monthlyUsage, setMonthlyUsage] = useState(0);
+  const [sampleLoaded, setSampleLoaded] = useState(false);
 
   useEffect(() => {
     const savedPlan = localStorage.getItem("billclarity_subscription");
@@ -43,7 +62,25 @@ export default function AnalyzePage() {
     const monthKey = getCurrentMonthKey();
 
     setMonthlyUsage(usage[monthKey] || 0);
+
+    const params = new URLSearchParams(window.location.search);
+    const shouldLoadSample = params.get("sample");
+
+    if (shouldLoadSample === "true") {
+      loadSampleBill();
+    }
   }, []);
+
+  function loadSampleBill() {
+    setDocumentTitle("Sample Internet Bill");
+    setDocumentType("Phone or internet bill");
+    setConcern("I want to know if any of these fees are worth asking about.");
+    setDocumentText(sampleBillText);
+    setSelectedFile(null);
+    setFileName("");
+    setSampleLoaded(true);
+    setError("");
+  }
 
   function incrementUsage() {
     const usageRaw = localStorage.getItem("billclarity_usage");
@@ -86,6 +123,7 @@ export default function AnalyzePage() {
 
     setSelectedFile(file);
     setFileName(file.name);
+    setSampleLoaded(false);
     setError("");
   }
 
@@ -102,7 +140,7 @@ export default function AnalyzePage() {
     }
 
     if (!selectedFile && documentText.trim() === "") {
-      setError("Please upload a file or paste document text.");
+      setError("Please upload a file, paste document text, or try the sample bill.");
       return;
     }
 
@@ -266,6 +304,30 @@ export default function AnalyzePage() {
           contact customer service.
         </p>
 
+        <div className="mb-6 rounded-xl border border-green-700 bg-green-950 p-5">
+          <h2 className="mb-2 text-xl font-bold text-green-300">
+            Curious but don’t have a bill ready?
+          </h2>
+
+          <p className="mb-4 text-sm text-green-100">
+            Try the sample bill first to see what kind of report BillClarity
+            creates.
+          </p>
+
+          <button
+            onClick={loadSampleBill}
+            className="rounded-lg bg-green-500 px-5 py-3 font-bold text-black hover:bg-green-400"
+          >
+            Try a Sample Bill
+          </button>
+
+          {sampleLoaded && (
+            <p className="mt-3 text-sm text-green-200">
+              Sample bill loaded. Scroll down and click Run Free Bill Scan.
+            </p>
+          )}
+        </div>
+
         <div className="mb-6 rounded-lg border border-green-900 bg-gray-900 p-4">
           <p className="text-gray-300">
             Current plan:{" "}
@@ -286,10 +348,9 @@ export default function AnalyzePage() {
         </div>
 
         <div className="mb-6 rounded-lg border border-yellow-700 bg-yellow-950 p-4 text-sm text-yellow-200">
-          Tip: For privacy, remove account numbers, member IDs, full addresses, 
-          birthdates, and payment information before uploading. BillClarity only 
-          needs the bill wording, charges, fees, dates, and confusing sections.
-
+          Tip: For privacy, remove account numbers, member IDs, full addresses,
+          birthdates, and payment info before uploading. BillClarity only needs
+          the bill wording, charges, fees, dates, and confusing sections.
         </div>
 
         <div className="space-y-6 rounded-xl border border-green-900 bg-gray-900 p-6">
@@ -319,7 +380,10 @@ export default function AnalyzePage() {
 
             <textarea
               value={documentText}
-              onChange={(event) => setDocumentText(event.target.value)}
+              onChange={(event) => {
+                setDocumentText(event.target.value);
+                setSampleLoaded(false);
+              }}
               placeholder="Paste the bill, contract, policy, or charge details here..."
               className="h-40 w-full rounded-lg border border-green-900 bg-black p-3 text-white"
             />
