@@ -13,29 +13,29 @@ export default function HomePage() {
         </h1>
 
         <p className="mx-auto mb-4 max-w-3xl text-xl text-gray-300">
-          Your first bill scan is free. Paste bill text or upload a file to get
-          a plain-English breakdown, questions to ask, and a copy-and-paste
-          message.
+          Confusing fees, vague charges, billing statements, and notices can be
+          hard to understand. BillClarity turns them into plain English so you
+          know what questions to ask before you pay.
         </p>
 
-        <p className="mx-auto mb-10 max-w-3xl text-sm text-gray-500">
-          BillClarity helps with confusing bills, fees, statements, insurance
-          documents, rent charges, utility bills, subscriptions, and more.
+        <p className="mx-auto mb-8 max-w-3xl text-sm text-gray-500">
+          Try a sample bill first with no upload needed, or use your 1 free bill
+          scan when you are ready to check your own document.
         </p>
 
         <div className="flex flex-col justify-center gap-4 sm:flex-row">
           <Link
-            href="/analyze"
+            href="/analyze?sample=true"
             className="rounded-lg bg-green-500 px-8 py-4 text-lg font-bold text-black hover:bg-green-400"
           >
-            Try 1 Free Bill Scan
+            Try a Sample Bill
           </Link>
 
           <Link
-            href="/analyze?sample=true"
+            href="/analyze"
             className="rounded-lg border border-green-500 px-8 py-4 text-lg font-bold text-green-400 hover:bg-green-500/10"
           >
-            Try a Sample Bill
+            Scan My Own Bill Free
           </Link>
 
           <Link
@@ -45,6 +45,11 @@ export default function HomePage() {
             View Plans
           </Link>
         </div>
+
+        <p className="mx-auto mt-4 max-w-2xl text-sm text-gray-500">
+          No upload needed for the sample. See what a BillClarity report looks
+          like before using your own bill.
+        </p>
       </section>
 
       <section className="mx-auto mt-20 max-w-6xl">
@@ -87,12 +92,12 @@ export default function HomePage() {
 
       <section className="mx-auto mt-16 max-w-4xl rounded-xl border border-green-900 bg-gray-900 p-6 text-center">
         <h2 className="mb-3 text-2xl font-bold text-green-400">
-          Curious but don’t have a bill ready?
+          Curious, but not ready to upload your own bill?
         </h2>
 
         <p className="mb-6 text-gray-300">
-          Try the sample bill first. It lets you see how BillClarity works
-          without uploading your own document.
+          Try the sample bill first. It lets you see how BillClarity explains a
+          confusing bill without uploading anything personal.
         </p>
 
         <Link
@@ -101,6 +106,19 @@ export default function HomePage() {
         >
           Try a Sample Bill
         </Link>
+      </section>
+
+      <section className="mx-auto mt-16 max-w-4xl rounded-xl border border-yellow-700 bg-yellow-950 p-6">
+        <h2 className="mb-3 text-center text-2xl font-bold text-yellow-200">
+          Your privacy matters
+        </h2>
+
+        <p className="text-center text-sm text-yellow-100">
+          Before uploading your own bill, remove account numbers, member IDs,
+          full addresses, birthdates, and payment information. BillClarity only
+          needs the bill wording, charges, fees, dates, and confusing sections
+          to help explain the document.
+        </p>
       </section>
 
       <section className="mx-auto mt-10 max-w-4xl text-center text-sm text-gray-500">
